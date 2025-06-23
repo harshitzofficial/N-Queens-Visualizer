@@ -1,0 +1,302 @@
+/* Reset & Base */
+/* Dark mode toggle button (customized) */
+.btn--mode {
+  background-color: #ffffff;
+  color: #333;
+  border: 1px solid #333;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.btn--mode:hover {
+  background-color: #f0f0f0;
+}
+
+/* Dark mode styling for the toggle button */
+body.dark-mode .btn--mode {
+  background-color: #333;
+  color: #f0f0f0;
+  border: 1px solid #f0f0f0;
+}
+
+body.dark-mode .btn--mode:hover {
+  background-color: #444;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0; /* light mode background */
+  color: #333;               /* light mode text */
+  padding: 20px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Dark Mode */
+body.dark-mode {
+  background-color: #121212;
+  color: #f0f0f0;
+}
+
+/* Dark mode overrides for elements with white backgrounds */
+body.dark-mode .controls,
+body.dark-mode .info-panel,
+body.dark-mode .instructions {
+  background-color: #1e1e1e;
+  color: #f0f0f0;
+  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode .form-label {
+  color: #ddd;
+}
+
+body.dark-mode .form-control {
+  background-color: #333;
+  color: #f0f0f0;
+  border: 1px solid #555;
+}
+
+body.dark-mode .btn--primary {
+  background-color: #0056b3;
+}
+
+body.dark-mode .btn--secondary {
+  background-color: #444;
+}
+
+body.dark-mode .btn--outline {
+  background-color: transparent;
+  color: #f0f0f0;
+  border-color: #f0f0f0;
+}
+
+/* Layout & Typography */
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.header h1 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.description {
+  font-size: 1rem;
+  color: #666;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Controls Panel */
+.controls {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-label {
+  font-weight: bold;
+  color: #555;
+}
+
+.form-control {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.speed-slider {
+  width: 100px;
+}
+
+/* Buttons */
+.btn {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn--primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn--primary:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.btn--secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn--secondary:hover:not(:disabled) {
+  background-color: #545b62;
+}
+
+.btn--outline {
+  background-color: white;
+  color: #007bff;
+  border: 1px solid #007bff;
+}
+
+.btn--outline:hover:not(:disabled) {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Info Panel */
+.info-panel {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+
+/* Stats */
+.stats {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-label {
+  font-weight: bold;
+}
+
+/* Chessboard */
+.board-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.chessboard {
+  display: grid;
+  gap: 1px;
+  background-color: #333;
+  border: 2px solid #333;
+  border-radius: 4px;
+  max-width: 80vmin;
+  max-height: 80vmin;
+  aspect-ratio: 1;
+}
+
+.square {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  min-height: 30px;
+  min-width: 30px;
+}
+
+.square.light {
+  background-color: #f0d9b5;
+}
+
+.square.dark {
+  background-color: #b58863;
+}
+
+.square.queen {
+  color: #000;
+  font-weight: bold;
+}
+
+.square.current {
+  background-color: #ff6b6b !important;
+}
+
+.square.attacking {
+  background-color: #ffcccc !important;
+}
+
+.square.backtrack {
+  background-color: #ffd93d !important;
+}
+
+/* Instructions */
+.instructions {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.instructions h3 {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.instructions ul {
+  list-style-type: disc;
+  margin-left: 20px;
+}
+
+.instructions li {
+  margin-bottom: 8px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .stats {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .square {
+    font-size: 1.2rem;
+    min-height: 25px;
+    min-width: 25px;
+  }
+}

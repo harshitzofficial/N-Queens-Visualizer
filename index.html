@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>N-Queens Visualizer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+     <button id="toggle-btn" class="btn btn--mode">
+  🌙 Dark Mode
+</button>
+
+
+    <div class="container">
+        <header class="header">
+            <h1>N-Queens Visualizer</h1>
+            <p class="description">
+                Watch the backtracking algorithm solve the N-Queens problem step by step.
+                Place N queens on an N×N board so no two queens attack each other.
+            </p>
+        </header>
+
+        <div class="controls">
+            <div class="control-group">
+                <label for="boardSize" class="form-label">Board Size:</label>
+                <select id="boardSize" class="form-control">
+                    <option value="4">4×4</option>
+                    <option value="5">5×5</option>
+                    <option value="6">6×6</option>
+                    <option value="7">7×7</option>
+                    <option value="8" selected>8×8</option>
+                    <option value="9">9×9</option>
+                    <option value="10">10×10</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label for="speed" class="form-label">Speed:</label>
+                <input type="range" id="speed" min="1" max="10" value="5" class="speed-slider">
+                <span class="speed-label">Medium</span>
+            </div>
+
+            <div class="control-buttons">
+                <button id="startBtn" class="btn btn--primary">Start</button>
+                <button id="pauseBtn" class="btn btn--secondary" disabled>Pause</button>
+                <button id="resetBtn" class="btn btn--outline">Reset</button>
+            </div>
+
+            <div class="solution-controls">
+                <button id="prevSolution" class="btn btn--outline" disabled>← Previous</button>
+                <button id="nextSolution" class="btn btn--outline" disabled>Next →</button>
+            </div>
+        </div>
+
+        <div class="info-panel">
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-label">Solution:</span>
+                    <span id="currentSolution">0</span> / <span id="totalSolutions">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Status:</span>
+                    <span id="status" class="status-text">Ready to start</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="board-container">
+            <div id="chessboard" class="chessboard"></div>
+        </div>
+
+        <div class="instructions">
+            <h3>How to Use:</h3>
+            <ul>
+                <li><strong>Board Size:</strong> Select from 4×4 to 10×10 grid</li>
+                <li><strong>Speed:</strong> Adjust visualization speed</li>
+                <li><strong>Start:</strong> Begin the algorithm visualization</li>
+                <li><strong>Pause/Resume:</strong> Control the solving process</li>
+                <li><strong>Solutions:</strong> Navigate through different solutions</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
