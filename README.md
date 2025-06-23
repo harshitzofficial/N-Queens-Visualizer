@@ -17,12 +17,9 @@ An interactive visualizer for solving the classic **N-Queens Problem** using bac
 
 ## 📸 Screenshots
 
-| Light Mode                                                                                            | Dark Mode                           |
-|--------------------------------------                                                              |-------------------------------------|
-| ![light](![image](https://github.com/user-attachments/assets/7efc62e0-35c6-4933-b1cc-2d8d59df3441)
-)                                                                                              | ![dark](![image](https://github.com/user-attachments/assets/ca22d12d-1a19-4798-9771-e6cfeb76056b)
-)       |
-
+| Light Mode | Dark Mode |
+|------------|-----------|
+| ![light mode](https://github.com/user-attachments/assets/7efc62e0-35c6-4933-b1cc-2d8d59df3441) | ![dark mode](https://github.com/user-attachments/assets/ca22d12d-1a19-4798-9771-e6cfeb76056b) |
 
 ---
 
@@ -93,7 +90,6 @@ Inspired by the classic N-Queens problem and visual algorithm projects from [Lee
 
 ## 🔗 Links
 
-- **[Live Demo](https://yourusername.github.io/n-queens-visualizer/)**
-  *Add your GitHub Pages link if deployed*
+- **[Live Demo](https://harshitzofficial.github.io/n-queens-visualizer/)**
 - **[Learn about N-Queens](https://en.wikipedia.org/wiki/Eight_queens_puzzle)**
 
