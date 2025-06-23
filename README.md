@@ -61,7 +61,7 @@ This means no two queens share the same row, column, or diagonal.
 
 This project uses **recursive backtracking** to try placing queens row-by-row. If a valid position is found, it proceeds. If not, it backtracks and tries a new position.
 
-You can explore the source code in `script.js` to learn how backtracking algorithms work in real time.
+You can explore the source code in `app.js` to learn how backtracking algorithms work in real time.
 
 ---
 
