@@ -76,11 +76,6 @@ You can explore the source code in `script.js` to learn how backtracking algorit
 
 ---
 
-## 📜 License
-
-MIT License. Free to use and modify.
-
----
 
 ## 🙌 Acknowledgements
 
