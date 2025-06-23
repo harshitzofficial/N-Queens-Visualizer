@@ -70,8 +70,8 @@ You can explore the source code in `script.js` to learn how backtracking algorit
 ```
 📦 n-queens-visualizer
  ┣ 📄 index.html
- ┣ 📄 styles.css
- ┣ 📄 script.js
+ ┣ 📄 style.css
+ ┣ 📄 app.js
 ```
 
 ---
