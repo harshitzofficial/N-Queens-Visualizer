@@ -85,6 +85,6 @@ Inspired by the classic N-Queens problem and visual algorithm projects from [Lee
 
 ## 🔗 Links
 
-- **[Live Demo](https://harshitzofficial.github.io/N-Queens-Visualizer/)**
+- **[Live Demo](https://n-queens-visualizer-two.vercel.app/)**
 - **[Learn about N-Queens](https://en.wikipedia.org/wiki/Eight_queens_puzzle)**
 
