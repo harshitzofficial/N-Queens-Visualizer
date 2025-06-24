@@ -1,13 +1,13 @@
-
-
 const toggleBtn = document.getElementById("toggle-btn");
 
+// Toggle between light and dark mode on button click
 toggleBtn.addEventListener("click", () => {
   document.body.classList.toggle("dark-mode");
 });
 
 class NQueensVisualizer {
   constructor() {
+    // Initialize all required properties for the visualizer
     this.boardSize = 8;
     this.board = [];
     this.solutions = [];
@@ -18,12 +18,14 @@ class NQueensVisualizer {
     this.solvingInProgress = false;
     this.timeoutId = null;
 
+    // Set up DOM elements, board, event listeners, and speed label
     this.initializeElements();
     this.initializeBoard();
     this.setupEventListeners();
     this.updateSpeedLabel();
   }
 
+  // Get and store all relevant DOM elements for later use
   initializeElements() {
     this.chessboard = document.getElementById('chessboard');
     this.startBtn = document.getElementById('startBtn');
@@ -39,6 +41,7 @@ class NQueensVisualizer {
     this.nextSolutionBtn = document.getElementById('nextSolution');
   }
 
+  // Set up the chessboard data and UI to initial state
   initializeBoard() {
     this.board = Array(this.boardSize).fill().map(() => Array(this.boardSize).fill(0));
     this.solutions = [];
@@ -48,6 +51,7 @@ class NQueensVisualizer {
     this.updateStatus('Ready to start');
   }
 
+  // Add all necessary event listeners for buttons and controls
   setupEventListeners() {
     this.startBtn.addEventListener('click', () => this.startSolving());
     this.pauseBtn.addEventListener('click', () => this.pauseSolving());
@@ -58,13 +62,17 @@ class NQueensVisualizer {
     this.nextSolutionBtn.addEventListener('click', () => this.showNextSolution());
   }
 
+  // Render the board in the UI, drawing queens and squares
   renderBoard() {
+    this.clearHighlights();
     this.chessboard.innerHTML = '';
     this.chessboard.style.gridTemplateColumns = `repeat(${this.boardSize}, 1fr)`;
     this.chessboard.style.gridTemplateRows = `repeat(${this.boardSize}, 1fr)`;
 
+    // Use either the currently selected solution or the live board
     const currentBoard = this.solutions[this.currentSolutionIndex] || this.board;
 
+    // Create the grid squares and add queen symbols if present
     for (let row = 0; row < this.boardSize; row++) {
       for (let col = 0; col < this.boardSize; col++) {
         const square = document.createElement('div');
@@ -78,25 +86,23 @@ class NQueensVisualizer {
     }
   }
 
+  // Highlight the current square and all attacked squares for a given queen position
   highlightAttacks(row, col) {
     this.clearHighlights();
-    // Highlight current position
     const idx = row * this.boardSize + col;
     if (this.chessboard.children[idx]) {
       this.chessboard.children[idx].classList.add('current');
     }
-    // Highlight attacked squares (simplified: just mark row, column, diagonals)
+    // Highlight row and column
     for (let i = 0; i < this.boardSize; i++) {
-      // Row
       if (i !== col && this.chessboard.children[row * this.boardSize + i]) {
         this.chessboard.children[row * this.boardSize + i].classList.add('attacking');
       }
-      // Column
       if (i !== row && this.chessboard.children[i * this.boardSize + col]) {
         this.chessboard.children[i * this.boardSize + col].classList.add('attacking');
       }
     }
-    // Diagonals
+    // Highlight diagonals
     for (let i = 1; i < this.boardSize; i++) {
       const directions = [[-1, -1], [-1, 1], [1, -1], [1, 1]];
       for (const [dr, dc] of directions) {
@@ -112,6 +118,7 @@ class NQueensVisualizer {
     }
   }
 
+  // Remove all visual highlights from the board
   clearHighlights() {
     if (!this.chessboard.children) return;
     for (const square of this.chessboard.children) {
@@ -119,6 +126,7 @@ class NQueensVisualizer {
     }
   }
 
+  // Update a single square's appearance and content (queen, highlight etc.)
   updateSquare(row, col, isQueen, extraClass = '') {
     const idx = row * this.boardSize + col;
     if (!this.chessboard.children[idx]) return;
@@ -129,8 +137,9 @@ class NQueensVisualizer {
     if (extraClass) square.classList.add(extraClass);
   }
 
+  // Check if a queen can be safely placed at `row`, `col`
   isSafe(row, col) {
-    // Check column above
+    // Check column (no other queen in the same column above this row)
     for (let i = 0; i < row; i++) {
       if (this.board[i][col] === 1) return false;
     }
@@ -145,45 +154,45 @@ class NQueensVisualizer {
     return true;
   }
 
+  // Solve the N-Queens problem using backtracking and display each step
   async solveNQueens(row = 0) {
     if (!this.isRunning) return false;
 
+    // If we've reached the end, store the current solution
     if (row === this.boardSize) {
-      // Found a solution, save it
       this.solutions.push(this.board.map(r => [...r]));
       this.updateStats();
       this.updateStatus(`Solution ${this.solutions.length} found!`);
-      // Render the solution for a moment
+      this.currentSolutionIndex = this.solutions.length - 1; // update to latest solution
       this.renderBoard();
       await this.sleep(this.animationSpeed * 2);
-      // Continue searching for more solutions
-      return true;
+      return true; // Continue searching for more
     }
 
+    // Try placing a queen at every column in the current row
     for (let col = 0; col < this.boardSize; col++) {
       if (!this.isRunning) return false;
 
-      // Show current attempt
+      // Visually highlight the current attempt
       this.highlightAttacks(row, col);
       this.updateStatus(`Trying position (${row + 1}, ${col + 1})`);
       await this.sleep(this.animationSpeed);
 
       if (this.isSafe(row, col)) {
-        // Place queen
+        // Place queen and update UI
         this.board[row][col] = 1;
         this.updateSquare(row, col, true);
         this.updateStatus(`Queen placed at (${row + 1}, ${col + 1})`);
         await this.sleep(this.animationSpeed);
 
-        // Recursively solve for next row
+        // Recursively try to solve next row
         if (await this.solveNQueens(row + 1)) {
-          // If we want to find all solutions, we just continue
-          // (no return here, so it will try other columns too)
+          // Continue finding all solutions
         }
 
         if (!this.isRunning) return false;
 
-        // Backtrack
+        // Remove queen (backtrack) and update UI
         this.board[row][col] = 0;
         this.updateSquare(row, col, false, 'backtrack');
         this.updateStatus(`Backtracking from (${row + 1}, ${col + 1})`);
@@ -192,27 +201,34 @@ class NQueensVisualizer {
       }
     }
 
+    // Remove highlights at the end of this row's search
     this.clearHighlights();
     return false;
   }
 
+  // Utility function to pause execution for animation
   sleep(ms) {
     return new Promise(resolve => {
       this.timeoutId = setTimeout(resolve, ms);
     });
   }
 
+  // Update displayed solution stats and navigation button states
   updateStats() {
-    this.currentSolutionSpan.textContent = this.currentSolutionIndex + 1;
+    this.currentSolutionSpan.textContent = this.solutions.length
+      ? this.currentSolutionIndex + 1
+      : 0;
     this.totalSolutionsSpan.textContent = this.solutions.length;
-    this.prevSolutionBtn.disabled = this.currentSolutionIndex <= 0;
+    this.prevSolutionBtn.disabled = this.currentSolutionIndex <= 0 || !this.solutions.length;
     this.nextSolutionBtn.disabled = this.currentSolutionIndex >= this.solutions.length - 1;
   }
 
+  // Update the status text in the UI
   updateStatus(text) {
     this.statusSpan.textContent = text;
   }
 
+  // Update speed label and adjust animation speed according to slider
   updateSpeedLabel() {
     const speedLabels = ['Slowest', 'Slow', 'Medium', 'Fast', 'Fastest'];
     const speed = parseInt(this.speedSlider.value);
@@ -220,6 +236,7 @@ class NQueensVisualizer {
     this.animationSpeed = 1100 - (speed * 100);
   }
 
+  // Start the solving process and manage button states
   startSolving() {
     if (this.solvingInProgress) return;
     this.solvingInProgress = true;
@@ -234,19 +251,28 @@ class NQueensVisualizer {
     this.resetBtn.disabled = true;
     this.prevSolutionBtn.disabled = true;
     this.nextSolutionBtn.disabled = true;
+    this.renderBoard();
     this.solveNQueens().then(() => {
+      // After solving, update state and UI
       this.solvingInProgress = false;
       this.isRunning = false;
       this.startBtn.disabled = false;
       this.pauseBtn.disabled = true;
       this.resetBtn.disabled = false;
-      this.prevSolutionBtn.disabled = this.currentSolutionIndex <= 0;
+      if (this.solutions.length) {
+        this.currentSolutionIndex = this.solutions.length - 1;
+        this.renderBoard();
+      } else {
+        this.renderBoard();
+      }
+      this.updateStats();
+      this.prevSolutionBtn.disabled = this.currentSolutionIndex <= 0 || !this.solutions.length;
       this.nextSolutionBtn.disabled = this.currentSolutionIndex >= this.solutions.length - 1;
       this.updateStatus(this.solutions.length ? 'All solutions found!' : 'No solutions found.');
-      this.renderBoard();
     });
   }
 
+  // Pause or resume the solving process
   pauseSolving() {
     if (!this.solvingInProgress) return;
     if (this.isPaused) {
@@ -260,6 +286,7 @@ class NQueensVisualizer {
     }
   }
 
+  // Reset the board and all state to the initial setup
   resetBoard() {
     clearTimeout(this.timeoutId);
     this.isRunning = false;
@@ -278,15 +305,18 @@ class NQueensVisualizer {
     this.nextSolutionBtn.disabled = true;
   }
 
+  // Change the size of the board and reset everything
   changeBoardSize() {
     this.boardSize = parseInt(this.boardSizeSelect.value);
     this.resetBoard();
   }
 
+  // Update the animation speed based on the UI slider
   updateSpeed() {
     this.updateSpeedLabel();
   }
 
+  // Show the previous solution (if available)
   showPreviousSolution() {
     if (this.currentSolutionIndex > 0) {
       this.currentSolutionIndex--;
@@ -295,6 +325,7 @@ class NQueensVisualizer {
     }
   }
 
+  // Show the next solution (if available)
   showNextSolution() {
     if (this.currentSolutionIndex < this.solutions.length - 1) {
       this.currentSolutionIndex++;
