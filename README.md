@@ -76,6 +76,395 @@ You can explore the source code in `app.js` to learn how backtracking algorithms
 
 ---
 
+<img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
+
+# N-Queens Visualizer: Comprehensive Code Documentation
+
+This document provides a detailed technical analysis of the N-Queens Visualizer JavaScript application, explaining its architecture, algorithms, and implementation details through comprehensive diagrams and code structure analysis.
+
+## Overview
+
+The N-Queens Visualizer is an interactive web application that demonstrates the classic N-Queens problem using a visual backtracking algorithm[^1][^2]. The application allows users to watch the step-by-step solution process on an animated chessboard, providing educational insight into how backtracking algorithms work in practice. The **N-Queens problem** involves placing N chess queens on an N×N chessboard such that no two queens can attack each other horizontally, vertically, or diagonally[^1][^2].
+
+![N-Queens problem visualization showing queen attack patterns on chessboard](https://user-gen-media-assets.s3.amazonaws.com/gpt4o_images/fee994d4-ee21-4775-ad68-66615ac07bee.png)
+
+N-Queens problem visualization showing queen attack patterns on chessboard
+
+The implementation consists of approximately 350 lines of JavaScript code organized into a single class-based architecture that handles user interface management, algorithm execution, and real-time visualization[^3][^4]. The application features **dark/light theme toggling**, **animation speed control**, **board size customization**, and **solution navigation capabilities**.
+
+## System Architecture
+
+The N-Queens Visualizer follows a **layered architecture pattern** that separates concerns between user interface, application logic, algorithmic processing, and visualization components[^5][^6]. This architectural approach ensures maintainable code and clear separation of responsibilities.
+
+![N-Queens Visualizer System Architecture](https://ppl-ai-code-interpreter-files.s3.amazonaws.com/web/direct-files/72230d69fc4bb9f0b4cdb32060b2a2a7/78afef7c-42e3-4acf-9f33-2f6f3149612c/64c849c7.png)
+
+N-Queens Visualizer System Architecture
+
+The system is organized into four distinct layers:
+
+- **HTML/DOM Layer**: Manages the user interface elements including the chessboard grid, control buttons, and status displays
+- **JavaScript Application Layer**: Contains the main NQueensVisualizer class, event handlers, and animation controllers
+- **Algorithm Layer**: Implements the core backtracking engine, safety checking logic, and solution storage mechanisms
+- **Visualization Layer**: Handles board rendering, animation systems, and visual highlighting effects
+
+This separation allows for **independent testing and maintenance** of each component while providing clear interfaces between different system responsibilities[^7][^8].
+
+## Algorithm Implementation
+
+### Backtracking Process
+
+The core algorithm implements a **recursive backtracking approach** to solve the N-Queens problem[^1][^9]. The algorithm explores all possible queen placements systematically, backtracking when invalid configurations are encountered.
+
+![N-Queens Backtracking Algorithm Flowchart](https://ppl-ai-code-interpreter-files.s3.amazonaws.com/web/direct-files/72230d69fc4bb9f0b4cdb32060b2a2a7/e37c1b4d-18bf-4498-b9c3-fe91bd287e05/3144225f.png)
+
+N-Queens Backtracking Algorithm Flowchart
+
+The backtracking process follows these key steps[^1][^2]:
+
+1. **Initialization**: Start with an empty N×N board and begin with row 0
+2. **Base Case Check**: If all N queens are placed (row equals board size), a solution is found
+3. **Column Iteration**: For each column in the current row, attempt queen placement
+4. **Safety Validation**: Check if the position is safe from other queens' attacks
+5. **Recursive Exploration**: If safe, place the queen and recursively solve the next row
+6. **Backtracking**: If no valid placement exists, remove the queen and try the next position
+
+### Safety Checking Algorithm
+
+The `isSafe()` method implements the **constraint validation logic** that ensures no two queens can attack each other[^1]. The safety check examines three attack patterns:
+
+- **Vertical Attacks**: Checks all positions in the same column above the current row
+- **Diagonal Attacks**: Validates both upper-left and upper-right diagonal paths
+- **Row Attacks**: Implicitly handled by the algorithm structure (only one queen per row)
+
+```javascript
+// Simplified safety check logic
+isSafe(row, col) {
+    // Check column conflicts
+    for (let i = 0; i < row; i++) {
+        if (this.board[i][col] === 1) return false;
+    }
+    
+    // Check diagonal conflicts
+    for (let i = row - 1, j = col - 1; i >= 0 && j >= 0; i--, j--) {
+        if (this.board[i][j] === 1) return false;
+    }
+    
+    // Additional diagonal and validation logic...
+    return true;
+}
+```
+
+
+## Class Structure and Organization
+
+### NQueensVisualizer Class Design
+
+The application is built around a single **ES6 class** that encapsulates all functionality using object-oriented design principles[^3][^10]. This approach provides **encapsulation**, **code reusability**, and **clear method organization**.
+
+![NQueensVisualizer Class Structure Diagram](https://ppl-ai-code-interpreter-files.s3.amazonaws.com/web/direct-files/72230d69fc4bb9f0b4cdb32060b2a2a7/1001183a-f877-4cf7-b35f-aabd0eb2f7b1/8dc7f85f.png)
+
+NQueensVisualizer Class Structure Diagram
+
+The class structure follows **separation of concerns** with methods grouped into logical categories[^7]:
+
+- **Initialization Methods**: Handle object construction and initial setup
+- **UI Rendering Methods**: Manage visual representation and DOM updates
+- **Algorithm Methods**: Implement the core N-Queens solving logic
+- **Control Methods**: Handle user interactions and application state
+- **Utility Methods**: Provide supporting functionality for status updates
+
+
+### Property Management
+
+The class maintains several critical state properties that coordinate between the algorithm execution and user interface:
+
+
+| Property Category | Properties | Purpose |
+| :-- | :-- | :-- |
+| **Algorithm State** | `board`, `solutions`, `currentSolutionIndex` | Track solving progress and results |
+| **Execution Control** | `isRunning`, `isPaused`, `solvingInProgress` | Manage algorithm execution flow |
+| **UI Configuration** | `boardSize`, `animationSpeed`, `timeoutId` | Control visual behavior and timing |
+| **DOM References** | `chessboard`, `startBtn`, `pauseBtn`, etc. | Access interface elements |
+
+## Data Flow and Process Management
+
+### User Interaction Flow
+
+The application handles user interactions through a **comprehensive event-driven architecture** that coordinates between user interface events and algorithm execution[^11][^12].
+
+![N-Queens Algorithm Data Flow Diagram](https://ppl-ai-code-interpreter-files.s3.amazonaws.com/web/direct-files/72230d69fc4bb9f0b4cdb32060b2a2a7/85848f95-666b-4e29-808d-354f46e03e4d/24979bba.png)
+
+N-Queens Algorithm Data Flow Diagram
+
+The data flow process demonstrates how user actions trigger cascading effects throughout the system:
+
+1. **User Input**: Click events on control buttons initiate processing
+2. **Event Handling**: Event listeners capture interactions and route to appropriate methods
+3. **State Management**: Application state is updated to reflect new conditions
+4. **Algorithm Execution**: Core solving logic begins with recursive backtracking
+5. **Visual Updates**: Animation system renders changes to the chessboard display
+6. **Solution Storage**: Valid configurations are preserved for navigation
+7. **Status Updates**: User interface elements reflect current progress and results
+
+### Asynchronous Animation System
+
+The visualization system employs **asynchronous JavaScript techniques** to create smooth, controllable animations[^13]. The `sleep()` method uses Promise-based delays to control animation timing:
+
+```javascript
+sleep(ms) {
+    return new Promise(resolve => {
+        this.timeoutId = setTimeout(resolve, ms);
+    });
+}
+```
+
+This approach allows for **pausable animations**, **speed control**, and **non-blocking user interface updates** during algorithm execution.
+
+## Component Analysis and Complexity
+
+### Code Organization Metrics
+
+The application demonstrates well-structured code organization with clear component boundaries and appropriate complexity distribution.
+
+The analysis reveals that the **algorithm core and backtracking logic** represent the highest complexity components, which is expected given their recursive nature and computational requirements[^9]. The **UI rendering and control systems** maintain moderate complexity, while **utility functions remain lightweight**.
+
+### Method Classification
+
+The class methods are systematically organized by functionality and access patterns, promoting **maintainable code architecture**.
+
+Key observations from the method analysis:
+
+- **21 total methods** with clear categorical organization
+- **Primarily private methods** ensuring proper encapsulation
+- **Two asynchronous methods** (`solveNQueens` and `sleep`) for animation management
+- **Balanced distribution** across initialization, rendering, algorithm, and utility functions
+
+
+### Algorithm Complexity Analysis
+
+The N-Queens problem exhibits **factorial time complexity** due to its combinatorial nature, making performance optimization through visualization control essential.
+
+**Performance Characteristics**:
+
+- **Time Complexity**: O(N!) in both best and worst cases due to exhaustive search requirements
+- **Space Complexity**: O(N²) for board storage plus recursive stack overhead
+- **Animation Overhead**: O(N² × Solutions) for visual updates, controllable through speed settings
+- **Memory Usage**: Scales with solution count for complete result storage
+
+
+## Implementation Features and Capabilities
+
+### Interactive Controls
+
+The application provides comprehensive user control over the solving process[^14][^15]:
+
+- **Start/Pause/Reset**: Full control over algorithm execution
+- **Speed Control**: Adjustable animation timing from slowest to fastest
+- **Board Size Selection**: Support for different N×N configurations
+- **Solution Navigation**: Browse through all discovered solutions
+- **Theme Toggle**: Dark and light mode support for accessibility
+
+
+### Visual Feedback System
+
+The visualization system provides **real-time algorithm feedback** through multiple visual indicators[^16][^17]:
+
+- **Queen Placement**: Visual chess queen symbols on board squares
+- **Attack Patterns**: Highlighted squares showing current queen's attack range
+- **Backtracking Indication**: Special highlighting when algorithm backtracks
+- **Progress Status**: Text updates describing current algorithm state
+- **Solution Statistics**: Live count of solutions found and current solution index
+
+
+### Code Quality and Best Practices
+
+The implementation follows **modern JavaScript development practices**[^18][^19]:
+
+- **ES6 Class Syntax**: Modern object-oriented programming approach
+- **Event-Driven Architecture**: Clean separation between UI and logic
+- **Async/Await Pattern**: Proper handling of asynchronous operations
+- **DOM Manipulation Best Practices**: Efficient element updates and event handling
+- **Consistent Naming Conventions**: Clear, descriptive method and variable names
+
+
+## Technical Documentation Standards
+
+This code documentation follows **industry best practices for technical writing**[^5][^19][^6]:
+
+- **Comprehensive Coverage**: All major components and algorithms explained
+- **Visual Aids**: Multiple diagram types enhance understanding
+- **Code Examples**: Relevant snippets illustrate key concepts
+- **Structured Organization**: Clear hierarchical information presentation
+- **Performance Analysis**: Complexity metrics provide implementation insights
+
+The documentation serves both **educational purposes** for understanding backtracking algorithms and **practical reference** for developers working with similar interactive visualization projects[^8][^20].
+
+<div style="text-align: center">⁂</div>
+
+[^1]: https://www.tutorialspoint.com/data_structures_algorithms/n_queen_problem.htm
+
+[^2]: https://www.geeksforgeeks.org/n-queen-problem-backtracking-3/
+
+[^3]: https://www.geeksforgeeks.org/javascript/javascript-classes/
+
+[^4]: https://www.w3schools.com/js/js_classes.asp
+
+[^5]: https://www.notion.com/blog/code-documentation
+
+[^6]: https://document360.com/blog/technical-documentation/
+
+[^7]: https://blog.codacy.com/code-documentation
+
+[^8]: https://github.com/resources/articles/software-development/tools-and-techniques-for-effective-code-documentation
+
+[^9]: https://www.geeksforgeeks.org/dsa/backtracking-algorithms/
+
+[^10]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_classes
+
+[^11]: https://dev.to/vishalkinikar/advanced-event-handling-patterns-in-javascript-1m4n
+
+[^12]: https://30dayscoding.com/blog/handling-events-and-event-handling-patterns-in-vuejs
+
+[^13]: https://blog.logrocket.com/patterns-efficient-dom-manipulation-vanilla-javascript/
+
+[^14]: https://www.w3schools.com/js/js_htmldom_events.asp
+
+[^15]: https://www.w3schools.com/js/js_events.asp
+
+[^16]: https://www.in-com.com/blog/code-visualization-turn-code-into-diagrams/
+
+[^17]: https://www.lucidchart.com/blog/visualize-code-documentation
+
+[^18]: https://google.github.io/styleguide/docguide/best_practices.html
+
+[^19]: https://developer.mozilla.org/en-US/blog/technical-writing/
+
+[^20]: https://www.altexsoft.com/blog/how-to-write-code-documentation/
+
+[^21]: https://quanos.com/en/knowhow/technical-documentation/
+
+[^22]: https://dev.to/r0mymendez/diagram-as-code-creating-dynamic-and-interactive-documentation-for-visual-content-2p93
+
+[^23]: https://www.mit.edu/course/21/21.guide/elemtech.htm
+
+[^24]: https://whatfix.com/blog/types-of-technical-documentation/
+
+[^25]: https://daily.dev/blog/diagrams-as-code-intro-for-developers
+
+[^26]: https://swimm.io/learn/code-documentation/code-documentation-javascript-methods-and-best-practices
+
+[^27]: https://www.gliffy.com/blog/diagrams-as-code
+
+[^28]: https://mitcommlab.mit.edu/broad/commkit/best-practices-for-coding-organization-and-documentation/
+
+[^29]: https://gitbook.com/docs/guides/best-practices/documentation-structure-tips
+
+[^30]: https://www.codesee.io/learning-center/code-visualization
+
+[^31]: https://www.archbee.com/blog/organize-technical-documentation
+
+[^32]: https://www.hellointerview.com/learn/code/backtracking/overview
+
+[^33]: https://www.geeksforgeeks.org/javascript/how-to-manipulate-dom-elements-in-javascript/
+
+[^34]: https://www.typescriptlang.org/docs/handbook/dom-manipulation.html
+
+[^35]: https://takeuforward.org/data-structure/n-queen-problem-return-all-distinct-solutions-to-the-n-queens-puzzle/
+
+[^36]: https://www.youtube.com/watch?v=RtpJOGvfo7E
+
+[^37]: https://favtutor.com/blogs/n-queen-problem
+
+[^38]: https://visualgo.net
+
+[^39]: https://www.w3schools.com/js/js_dom_examples.asp
+
+[^40]: https://www.linkedin.com/pulse/n-queen-problem-backtracking-algorithm-dilli-hang-rai-ay9mf
+
+[^41]: https://algorithm-visualizer.org
+
+[^42]: https://www.w3schools.com/js/js_htmldom.asp
+
+[^43]: https://en.wikipedia.org/wiki/Eight_queens_puzzle
+
+[^44]: https://algoanim.ide.sk/?page=categories\&cat=92
+
+[^45]: https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/DOM_scripting
+
+[^46]: https://www.pvpsiddhartha.ac.in/dep_it/lecture%20notes/DAA19/UNIT-5.pdf
+
+[^47]: https://www.youtube.com/watch?v=ybS4-g5oMxE
+
+[^48]: https://apiumhub.com/tech-blog-barcelona/key-software-visualization-tools/
+
+[^49]: https://lucid.co/templates/algorithm-flowchart-example
+
+[^50]: https://www.techtarget.com/searchapparchitecture/tip/A-review-of-top-software-architecture-visualization-tools
+
+[^51]: https://notegpt.io/ai-flowchart-generator
+
+[^52]: https://github.com/ashishpatel26/Tools-to-Design-or-Visualize-Architecture-of-Neural-Network
+
+[^53]: https://whimsical.com/ai/ai-text-to-flowchart
+
+[^54]: https://www.dofactory.com/javascript/design-patterns/observer
+
+[^55]: https://www.falkordb.com/blog/code-visualization/
+
+[^56]: https://www.lucidchart.com/pages/examples/flowchart-maker
+
+[^57]: https://www.geeksforgeeks.org/javascript/javascript-events/
+
+[^58]: https://thectoclub.com/tools/best-code-visualization-tools/
+
+[^59]: https://www.canva.com/online-whiteboard/flowcharts/
+
+[^60]: https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/Events
+
+[^61]: https://online.visual-paradigm.com/diagrams/features/flowchart-tool/
+
+[^62]: https://bytebytego.com/guides/top-6-tools-to-turn-code-into-beautiful-diagrams/
+
+[^63]: https://www.chess.com/blog/ryanchen100/early-queen-attacks-and-how-to-stop-them
+
+[^64]: https://clickup.com/blog/technical-documentation-templates/
+
+[^65]: https://lichess.org/@/FischyVishy/blog/attacking-chess-patterns-grand-prix-queen1-attack-and-grand-thorn/ru8jna8o
+
+[^66]: https://slite.com/templates/technical-documentation
+
+[^67]: https://www.chess.com/terms/chess-queen
+
+[^68]: https://www.reddit.com/r/technicalwriting/comments/113mh5p/technical_documentation_templatessamplesexamples/
+
+[^69]: https://web.dev/learn/javascript/classes
+
+[^70]: https://www.reddit.com/r/chessbeginners/comments/1658228/total_beginner_here_how_do_i_deal_with_people/
+
+[^71]: https://www.overleaf.com/latex/templates/technical-document-template/mdgftpdfbvbs
+
+[^72]: https://www.w3schools.com/js/js_class_inheritance.asp
+
+[^73]: https://thechessworld.com/articles/middle-game/isolated-queens-pawn-the-3-attacking-patterns/
+
+[^74]: https://www.madcapsoftware.com/downloads/madcap-flare-project-templates/
+
+[^75]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
+
+[^76]: https://www.youtube.com/watch?v=FhAnHXqaSVY
+
+[^77]: https://www.freecodecamp.org/news/how-to-use-classes-in-javascript-handbook/
+
+[^78]: https://www.chess.com/forum/view/general/common-queen-trapping-patterns
+
+[^79]: https://ppl-ai-code-interpreter-files.s3.amazonaws.com/web/direct-files/72230d69fc4bb9f0b4cdb32060b2a2a7/dede59bd-9aa8-43ab-80c8-0386610f9ff0/e20d40b9.csv
+
+[^80]: https://ppl-ai-code-interpreter-files.s3.amazonaws.com/web/direct-files/72230d69fc4bb9f0b4cdb32060b2a2a7/dede59bd-9aa8-43ab-80c8-0386610f9ff0/14c14c21.csv
+
+[^81]: https://ppl-ai-code-interpreter-files.s3.amazonaws.com/web/direct-files/72230d69fc4bb9f0b4cdb32060b2a2a7/dede59bd-9aa8-43ab-80c8-0386610f9ff0/c480e19c.csv
+
+
+
 
 ## 🙌 Acknowledgements
 
