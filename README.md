@@ -63,8 +63,6 @@ This project uses **recursive backtracking** to try placing queens row-by-row. I
 
 You can explore the source code in `app.js` to learn how backtracking algorithms work in real time.
 
-# NQueensVisualizer
-
 ## Properties
 - `boardSize: number`
 - `board: Array[][]`
