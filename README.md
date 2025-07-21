@@ -63,6 +63,65 @@ This project uses **recursive backtracking** to try placing queens row-by-row. I
 
 You can explore the source code in `app.js` to learn how backtracking algorithms work in real time.
 
+# NQueensVisualizer
+
+## Properties
+- `boardSize: number`
+- `board: Array[][]`
+- `solutions: Array[][][]`
+- `currentSolutionIndex: number`
+- `isRunning: boolean`
+- `isPaused: boolean`
+- `animationSpeed: number`
+- `solvingInProgress: boolean`
+- `timeoutId: number`
+- `chessboard: HTMLElement`
+- `startBtn: HTMLElement`
+- `pauseBtn: HTMLElement`
+- `resetBtn: HTMLElement`
+
+---
+
+## Initialization
+- `+ constructor()`
+- `+ initializeElements()`
+- `+ initializeBoard()`
+- `+ setupEventListeners()`
+
+---
+
+## UI Rendering
+- `+ renderBoard()`
+- `+ updateSquare(row, col, isQueen, extraClass)`
+- `+ highlightAttacks(row, col)`
+- `+ clearHighlights()`
+
+---
+
+## Algorithm
+- `+ solveNQueens(row)`
+- `+ isSafe(row, col)`
+- `+ sleep(ms)`
+
+---
+
+## Controls
+- `+ startSolving()`
+- `+ pauseSolving()`
+- `+ resetBoard()`
+- `+ changeBoardSize()`
+- `+ updateSpeed()`
+- `+ showPreviousSolution()`
+- `+ showNextSolution()`
+
+---
+
+## Utility
+- `+ updateStats()`
+- `+ updateStatus(text)`
+- `+ updateSpeedLabel()`
+
+
 ---
 
 ## 📁 Folder Structure
